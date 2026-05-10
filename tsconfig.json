@@ -1,0 +1,21 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"noEmit": true,
+		"module": "ES2022",
+		"moduleResolution": "bundler",
+		"target": "ES2022",
+		"types": ["bun", "@cloudflare/workers-types/experimental"],
+		"lib": ["ES2022"]
+	},
+	"include": [
+		"alchemy/**/*.ts",
+		"stacks/**/*.ts",
+		"apps/*/alchemy.run.ts",
+		"apps/*/types/env.d.ts",
+		"durable-objects/*/alchemy.run.ts",
+		"durable-objects/*/env.d.ts"
+	],
+	"exclude": ["node_modules", "**/build/**"]
+}

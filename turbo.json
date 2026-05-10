@@ -1,0 +1,187 @@
+{
+	"$schema": "./node_modules/turbo/schema.json",
+	"globalDependencies": [
+		".env.local",
+		".env.production",
+		".env.staging",
+		"tsconfig.base.json",
+		"packages/alchemy-utils/src/password.ts",
+		"packages/alchemy-utils/src/env-requirements.ts",
+		"packages/alchemy-utils/src/worker-peer-scripts.ts",
+		"packages/alchemy-utils/src/deployment-stage.ts",
+		"packages/alchemy-utils/src/alchemy-cli.ts",
+		"packages/scripts/src/collected-env-requirements.ts",
+		"packages/state-hub/alchemy.run.ts"
+	],
+
+	"ui": "tui",
+	"tasks": {
+		"build": {
+			"outputLogs": "new-only"
+		},
+		"build:local": {
+			"outputLogs": "new-only"
+		},
+		"build:staging": {
+			"outputLogs": "new-only"
+		},
+		"typecheck": {
+			"outputLogs": "new-only"
+		},
+		"typegen": {
+			"outputLogs": "new-only"
+		},
+		"dev:preflight": {
+			"cache": false,
+			"outputLogs": "full"
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true,
+			"outputLogs": "new-only"
+		},
+		"deploy:prod": {
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"deploy:staging": {
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"deploy:preview": {
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"destroy:prod": {
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"destroy:staging": {
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"destroy:preview": {
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"chatroom-do#destroy:prod": {
+			"dependsOn": ["@internal/web#destroy:prod"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"ping-do#destroy:prod": {
+			"dependsOn": ["@internal/web#destroy:prod"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"other-worker#destroy:prod": {
+			"dependsOn": ["@internal/web#destroy:prod"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"@internal/db#destroy:prod": {
+			"dependsOn": ["@internal/web#destroy:prod"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"state-hub#destroy:prod": {
+			"dependsOn": ["@internal/web#destroy:prod"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"chatroom-do#destroy:staging": {
+			"dependsOn": ["@internal/web#destroy:staging"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"ping-do#destroy:staging": {
+			"dependsOn": ["@internal/web#destroy:staging"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"other-worker#destroy:staging": {
+			"dependsOn": ["@internal/web#destroy:staging"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"@internal/db#destroy:staging": {
+			"dependsOn": ["@internal/web#destroy:staging"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"state-hub#destroy:staging": {
+			"dependsOn": ["@internal/web#destroy:staging"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"chatroom-do#destroy:preview": {
+			"dependsOn": ["@internal/web#destroy:preview"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"ping-do#destroy:preview": {
+			"dependsOn": ["@internal/web#destroy:preview"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"other-worker#destroy:preview": {
+			"dependsOn": ["@internal/web#destroy:preview"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"@internal/db#destroy:preview": {
+			"dependsOn": ["@internal/web#destroy:preview"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"state-hub#destroy:preview": {
+			"dependsOn": ["@internal/web#destroy:preview"],
+			"cache": false,
+			"outputLogs": "new-only"
+		},
+		"lint": {
+			"outputLogs": "new-only"
+		},
+		"lint:format": {
+			"outputLogs": "new-only"
+		},
+		"clean": {
+			"cache": false
+		},
+		"db:generate": {
+			"outputLogs": "new-only"
+		}
+	},
+	"globalEnv": [
+		"CI",
+		"GITHUB_ACTIONS",
+		"GITHUB_RUN_ATTEMPT",
+		"GITHUB_RUN_NUMBER",
+		"CLOUDFLARE_API_TOKEN",
+		"CLOUDFLARE_ACCOUNT_ID",
+		"ALCHEMY_PASSWORD",
+		"ALCHEMY_STATE_TOKEN",
+		"CHATROOM_INTERNAL_SECRET",
+		"STAGE",
+		"DEPLOY_ENABLED",
+		"WEB_DOMAINS",
+		"WEB_ROUTES",
+		"WEB_ZONE_ID",
+		"WEB_DOMAIN_OVERRIDE_EXISTING_ORIGIN",
+		"LOCAL_PORTLESS",
+		"PORT",
+		"PORTLESS_URL",
+		"POSTHOG_CLI_API_KEY",
+		"POSTHOG_CLI_ENV_ID",
+		"POSTHOG_CLI_HOST",
+		"POSTHOG_CLI_PROJECT_ID",
+		"POSTHOG_CLI_TOKEN",
+		"POSTHOG_DEPLOY_SOURCE",
+		"POSTHOG_KEY",
+		"POSTHOG_HOST",
+		"POSTHOG_SITE",
+		"POSTHOG_RELEASE_BUILD",
+		"POSTHOG_RELEASE_VERSION",
+		"TURBO_TELEMETRY_DISABLED"
+	]
+}

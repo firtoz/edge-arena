@@ -1,0 +1,44 @@
+.DS_Store
+node_modules/
+*.tsbuildinfo
+
+# Cloudflare / Alchemy
+.mf
+.wrangler
+.alchemy/
+.dev.vars
+
+# Env — ignore all `.env` / `.env.*` (any directory); keep human-only examples tracked
+**/.env
+**/.env.*
+!.env.example
+!.env.example.*
+!**/.env.example
+!**/.env.example.*
+
+# Turbo
+.turbo
+
+# Wrangler secret sync (local hash cache; not secret values)
+.wrangler-secret-sync.json
+
+# Build outputs
+build/
+dist/
+.next/
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+
+# Logs
+*.log
+bun-debug.log*

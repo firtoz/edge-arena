@@ -1,0 +1,21 @@
+.DS_Store
+        *.tsbuildinfo
+
+# React Router
+/.react-router/
+/build/
+
+# Cloudflare
+.mf
+.wrangler
+
+# Env — same as repo root: all `.env*` except `.env.example*`
+**/.env
+**/.env.*
+!.env.example
+!.env.example.*
+!**/.env.example
+!**/.env.example.*
+
+# Turbo
+.turbo

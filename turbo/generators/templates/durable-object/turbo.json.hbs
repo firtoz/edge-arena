@@ -1,0 +1,74 @@
+{
+	"$schema": "../../node_modules/turbo/schema.json",
+	"extends": ["//"],
+	"tasks": {
+		"dev": {
+			"dependsOn": ["scripts#dev:preflight"{{#if usesSqlite}}, "db:generate", "typegen"{{else}}, "typegen"{{/if}}],
+			"inputs": ["workers/**/*.ts", "src/**/*.ts", "alchemy.run.ts", "$TURBO_ROOT$/.env.local", "package.json"],
+			"persistent": true,
+			"cache": false
+		},
+		"lint": {
+			"dependsOn": ["typecheck"],
+			"inputs": ["workers/**/*.ts", "src/**/*.ts", "tsconfig.json", "tsconfig.cloudflare.json", "biome.json"],
+			"outputs": []
+		},
+		"lint:format": {
+			"inputs": ["workers/**/*.ts", "src/**/*.ts", "tsconfig.json", "tsconfig.cloudflare.json", "biome.json"],
+			"outputs": []
+		},
+		"typecheck": {
+			"dependsOn": [{{#if usesSqlite}}"db:generate", {{/if}}"typegen", "^typecheck"],
+			"inputs": [
+				"workers/**/*.ts",
+				"src/**/*.ts",
+				"drizzle/**",
+				"alchemy.run.ts",
+				"tsconfig.json",
+				"tsconfig.cloudflare.json",
+				"package.json",
+				"$TURBO_ROOT$/tsconfig.base.json",
+				"env.d.ts"
+			],
+			"outputs": []
+		},
+		"typegen": {
+			"dependsOn": ["^typegen"],
+			"inputs": ["workers/**/*.ts", "src/**/*.ts", "alchemy.run.ts", "package.json", "env.d.ts"],
+			"outputs": []
+		},
+		"deploy:prod": {
+			"dependsOn": ["^deploy:prod"{{#if usesSqlite}}, "db:generate", "typecheck"{{else}}, "typecheck"{{/if}}],
+			"cache": false,
+			"outputs": []
+		},
+		"deploy:staging": {
+			"dependsOn": ["^deploy:staging"{{#if usesSqlite}}, "db:generate", "typecheck"{{else}}, "typecheck"{{/if}}],
+			"cache": false,
+			"outputs": []
+		},
+		"deploy:preview": {
+			"dependsOn": ["^deploy:preview"{{#if usesSqlite}}, "db:generate", "typecheck"{{else}}, "typecheck"{{/if}}],
+			"cache": false,
+			"outputs": []
+		},
+{{#if usesSqlite}}
+		"db:generate": {
+			"inputs": ["drizzle.config.ts", "src/**/*.ts"],
+			"outputs": ["drizzle/**"]
+		},
+{{/if}}
+		"destroy:prod": {
+			"cache": false,
+			"outputs": []
+		},
+		"destroy:staging": {
+			"cache": false,
+			"outputs": []
+		},
+		"destroy:preview": {
+			"cache": false,
+			"outputs": []
+		}
+	}
+}

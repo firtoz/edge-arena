@@ -1,0 +1,44 @@
+# Required by the **multiworker: production** ruleset as a status check (`Production merge source`).
+# PRs opened using `GITHUB_TOKEN` do not run `pull_request` workflows (GitHub suppresses those events),
+# so **`Main`** (**`main-push.yml`**) posts the same check via the Checks API after open/reuse — see **`main-push.yml`**.
+# The allowed head branch is repo variable **`PRODUCTION_PR_HEAD`** (default **main**), set by
+# the admin sync from **`github.repository.rulesets.production.sourceBranchForProductionPrs`** in
+# **`config/github.policy.ts`**.
+
+name: Restrict production PR source
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited, ready_for_review]
+    branches: [production]
+
+concurrency:
+  group: restrict-prod-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  require-expected-head:
+    name: Production merge source
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require configured head branch
+        env:
+          WANT_RAW: ${{ vars.PRODUCTION_PR_HEAD }}
+        run: |
+          set -euo pipefail
+          head="${{ github.head_ref }}"
+          head_repo="${{ github.event.pull_request.head.repo.full_name }}"
+          base_repo="${{ github.repository }}"
+          want="${WANT_RAW:-}"
+          want="${want:-main}"
+          if [ -z "$head_repo" ] || [ "$head_repo" != "$base_repo" ]; then
+            echo "::error::Pull requests into \`production\` must come from the same repository (head repo: \`${head_repo:-<missing>}\`, expected: \`$base_repo\`). Fork PRs are not allowed."
+            exit 1
+          fi
+          if [ "$head" != "$want" ]; then
+            echo "::error::Pull requests into \`production\` must use head branch \`$want\` from this repo (got: \`$head\`)."
+            exit 1
+          fi

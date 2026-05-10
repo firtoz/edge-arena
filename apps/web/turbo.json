@@ -1,0 +1,167 @@
+{
+	"$schema": "../../node_modules/turbo/schema.json",
+	"extends": ["//"],
+	"tasks": {
+		"typegen": {
+			"dependsOn": ["^typegen", "^db:generate"],
+			"inputs": [
+				"app/routes.ts",
+				"app/routes/**/*.ts",
+				"app/routes/**/*.tsx",
+				"app/**/*.ts",
+				"app/**/*.tsx",
+				"workers/**/*.ts",
+				"workers/**/*.tsx",
+				"package.json",
+				"tsconfig.json",
+				"tsconfig.node.json",
+				"tsconfig.cloudflare.json",
+				"vite.config.ts",
+				"react-router.config.ts",
+				"types/env.d.ts"
+			],
+			"outputs": [".react-router/**"]
+		},
+		"lint": {
+			"dependsOn": ["typecheck"],
+			"inputs": [
+				"app/**/*.ts",
+				"app/**/*.tsx",
+				"workers/**/*.ts",
+				"workers/**/*.tsx",
+				"biome.json",
+				"vite.config.ts",
+				"react-router.config.ts",
+				"types/env.d.ts"
+			],
+			"outputs": []
+		},
+		"lint:format": {
+			"inputs": [
+				"app/**/*.ts",
+				"app/**/*.tsx",
+				"workers/**/*.ts",
+				"workers/**/*.tsx",
+				"biome.json",
+				"vite.config.ts",
+				"react-router.config.ts",
+				"types/env.d.ts"
+			],
+			"outputs": []
+		},
+		"typecheck": {
+			"dependsOn": ["typegen", "^typecheck"],
+			"inputs": [
+				"app/**/*.ts",
+				"app/**/*.tsx",
+				"workers/**/*.ts",
+				"workers/**/*.tsx",
+				"tsconfig.json",
+				"tsconfig.node.json",
+				"tsconfig.cloudflare.json",
+				"package.json",
+				"$TURBO_ROOT$/tsconfig.base.json",
+				"types/env.d.ts"
+			],
+			"outputs": []
+		},
+		"dev": {
+			"dependsOn": ["scripts#dev:preflight", "typegen"],
+			"persistent": true,
+			"cache": false
+		},
+		"build:local": {
+			"dependsOn": ["typecheck"],
+			"inputs": [
+				"app/**/*.ts",
+				"app/**/*.tsx",
+				"workers/**/*.ts",
+				"workers/**/*.tsx",
+				"vite.config.ts",
+				"react-router.config.ts",
+				"package.json",
+				"$TURBO_ROOT$/tsconfig.base.json",
+				"node_modules/.cache/imagetools"
+			],
+			"outputs": ["build/**/*"]
+		},
+		"build:prod": {
+			"dependsOn": ["typecheck"],
+			"inputs": [
+				"app/**/*.ts",
+				"app/**/*.tsx",
+				"workers/**/*.ts",
+				"workers/**/*.tsx",
+				"vite.config.ts",
+				"react-router.config.ts",
+				"package.json",
+				"$TURBO_ROOT$/tsconfig.base.json",
+				"node_modules/.cache/imagetools"
+			],
+			"outputs": ["build/**/*"]
+		},
+		"build:staging": {
+			"dependsOn": ["typecheck"],
+			"inputs": [
+				"app/**/*.ts",
+				"app/**/*.tsx",
+				"workers/**/*.ts",
+				"workers/**/*.tsx",
+				"vite.config.ts",
+				"react-router.config.ts",
+				"package.json",
+				"$TURBO_ROOT$/tsconfig.base.json",
+				"node_modules/.cache/imagetools"
+			],
+			"outputs": ["build/**/*"]
+		},
+		"deploy:prod": {
+			"dependsOn": ["typegen", "typecheck", "^deploy:prod"],
+			"cache": false,
+			"inputs": [
+				"alchemy.run.ts",
+				"app/**/*.ts",
+				"app/**/*.tsx",
+				"workers/**/*.ts",
+				"package.json"
+			],
+			"outputs": []
+		},
+		"deploy:staging": {
+			"dependsOn": ["typegen", "typecheck", "^deploy:staging"],
+			"cache": false,
+			"inputs": [
+				"alchemy.run.ts",
+				"app/**/*.ts",
+				"app/**/*.tsx",
+				"workers/**/*.ts",
+				"package.json"
+			],
+			"outputs": []
+		},
+		"deploy:preview": {
+			"dependsOn": ["typegen", "typecheck", "^deploy:preview"],
+			"cache": false,
+			"inputs": [
+				"alchemy.run.ts",
+				"app/**/*.ts",
+				"app/**/*.tsx",
+				"workers/**/*.ts",
+				"package.json"
+			],
+			"outputs": []
+		},
+		"destroy:prod": {
+			"cache": false,
+			"outputs": []
+		},
+		"destroy:staging": {
+			"cache": false,
+			"outputs": []
+		},
+		"destroy:preview": {
+			"cache": false,
+			"outputs": []
+		}
+	}
+}
