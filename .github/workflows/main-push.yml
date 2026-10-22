@@ -56,9 +56,15 @@ jobs:
         with:
           ref: ${{ github.sha }}
 
+      - name: Use patched project Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: 1.4.3
+          bun-version-file: package.json
 
       - name: Install dependencies
         run: bun install --frozen-lockfile

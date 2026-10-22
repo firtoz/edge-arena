@@ -34,7 +34,9 @@ A production-minded starter for full-stack Cloudflare apps: React Router on Work
 | Typegen cadence, Turbo deploy order, generated artifacts | [`agents/skills/multiworker-workflow/SKILL.md`](agents/skills/multiworker-workflow/SKILL.md) |
 | Cursor / IDE rules look wrong after clone | `bun run agents:link` · [`agents/README.md`](agents/README.md) |
 
-**Bun:** use the version in root [`package.json`](package.json) → `packageManager` (CI matches it).
+**Bun:** use the version in root [`package.json`](package.json) → `packageManager` (CI matches it). **Node:** `nvm use` selects the patched version in `.nvmrc`.
+
+Runtime pin changes invalidate Turbo checks. CI runs a blocking audit and smoke-tests Alchemy's Miniflare with HTTP, D1, WebSocket and Sharp. Scoped overrides patch the legacy Drizzle loader's esbuild and Miniflare's Undici/WebSocket/Sharp dependencies; remove them when parent dependencies update and audit plus smoke checks remain clean. Vite 8 uses its native Oxc minifier for the Cloudflare Worker build target.
 
 ## Quick start
 
